@@ -1,7 +1,8 @@
-package ru.ntv.entity;
+package ru.ntv.entity.users;
 
-import jakarta.persistence.*;
 import lombok.*;
+
+import javax.persistence.*;
 
 @Entity
 @AllArgsConstructor

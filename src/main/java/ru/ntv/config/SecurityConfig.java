@@ -3,6 +3,7 @@ package ru.ntv.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -23,14 +25,16 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
+@EnableTransactionManagement
 public class SecurityConfig{
-    @Autowired
-    private JwtAuthenticationPoint unauthorizedHandler;
+    private final JwtAuthenticationPoint unauthorizedHandler;
+    private final JwtAuthenticationFilter authenticationFilter;
 
-    @Bean
-    JwtAuthenticationFilter jwtAuthenticationFilter(){
-        return new JwtAuthenticationFilter();
+    public SecurityConfig(JwtAuthenticationPoint unauthorizedHandler, JwtAuthenticationFilter authenticationFilter) {
+        this.unauthorizedHandler = unauthorizedHandler;
+        this.authenticationFilter =authenticationFilter;
     }
+
 
     @Bean
     PasswordEncoder passwordEncoder(){
@@ -54,7 +58,7 @@ public class SecurityConfig{
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .cors()
                 .and()
                 .csrf(AbstractHttpConfigurer::disable)
@@ -64,16 +68,16 @@ public class SecurityConfig{
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/auth/**", "/common/**", "/articles/**", "/themes/**")
-                        .permitAll()
-                        .requestMatchers("/admin/**")
-                        .hasAuthority(DatabaseRole.ROLE_ADMIN.name())
-                        .requestMatchers("/user/**")
-                        .hasAuthority(DatabaseRole.ROLE_CLIENT.name())
-                        .requestMatchers("*")
-                        .denyAll()
-                )
+//                .authorizeHttpRequests((auth) -> auth
+//                        .requestMatchers("/auth/**", "/common/**", "/articles/**", "/themes/**")
+//                        .permitAll()
+//                        .requestMatchers("/admin/**")
+//                        .hasAuthority(DatabaseRole.ROLE_ADMIN.name())
+//                        .requestMatchers("/user/**")
+//                        .hasAuthority(DatabaseRole.ROLE_CLIENT.name())
+//                        .requestMatchers("*")
+//                        .denyAll()
+//                )
                 .build();
     }
 }
