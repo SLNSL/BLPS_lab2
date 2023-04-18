@@ -15,12 +15,8 @@ import ru.ntv.service.ArticleService;
 @Validated
 public class AdminArticleController {
 
-    private final ArticleService articleService;
-
-    public AdminArticleController(ArticleService articleService) {
-        this.articleService = articleService;
-    }
-
+    @Autowired
+    private ArticleService articleService;
 
     @PostMapping
     ResponseEntity<Article> createArticle(@Valid @RequestBody NewArticleRequest newArticleRequest){

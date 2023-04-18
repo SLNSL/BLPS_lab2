@@ -14,12 +14,9 @@ import javax.validation.*;
 @RequestMapping("admin/themes")
 @Validated
 public class AdminThemeController {
-    
-    private final ThemesService themesService;
 
-    public AdminThemeController(ThemesService themesService) {
-        this.themesService = themesService;
-    }
+    @Autowired
+    private ThemesService themesService;
 
     @PostMapping()
     ResponseEntity<Theme> create(@Valid @RequestBody CreateThemeRequest req){
