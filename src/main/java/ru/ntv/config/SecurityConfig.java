@@ -1,5 +1,6 @@
 package ru.ntv.config;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,9 +19,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import ru.ntv.entity.users.Privilege;
 import ru.ntv.etc.DatabasePrivilege;
+import ru.ntv.repo.user.PrivilegeRepository;
+import ru.ntv.repo.user.RoleRepository;
 import ru.ntv.security.JwtAuthenticationFilter;
 import ru.ntv.security.JwtAuthenticationPoint;
+
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Configuration
@@ -33,6 +39,14 @@ public class SecurityConfig{
     
     @Autowired
     JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    @Autowired
+    RoleRepository privilegeRepository;
+
+    @PostConstruct
+    public void go(){
+        privilegeRepository.findAll().forEach(System.out::println);
+    }
 
     @Bean
     PasswordEncoder passwordEncoder(){

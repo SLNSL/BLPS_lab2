@@ -2,6 +2,7 @@ package ru.ntv.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.ntv.dto.response.boss.JournalistResponse;
 import ru.ntv.entity.articles.Article;
 import ru.ntv.entity.users.User;
@@ -29,8 +30,8 @@ public class UserService {
     ArticleRepository articleRepository;
 
 
-//    @Transactional(transactionManager = "transactionManager")
-    public String dismissJournalist(String idJournalist){
+    @Transactional(transactionManager = "transactionManager")
+    public String dismissJournalist(String idJournalist) {
 
             final var journalist = userRepository.findById(idJournalist).orElseThrow();
             System.out.println(journalist.getLogin() + " " + journalist.getId() + " " + journalist.getRole().getName());
@@ -38,7 +39,7 @@ public class UserService {
                 throw new NotRightRoleException("Это не журналист");
 
             journalist.setRole(
-                    roleRepository.findRoleByRoleName(
+                    roleRepository.findRoleByName(
                             DatabaseRole.ROLE_CLIENT.name()
                     )
             );
@@ -51,6 +52,8 @@ public class UserService {
 
 
             userRepository.save(journalist);
+
+
 
             articleRepository.saveAll(articles);
 
@@ -67,7 +70,7 @@ public class UserService {
     }
 
     public List<JournalistResponse> getAllJournalists() {
-        final var roleJournalist = roleRepository.findRoleByRoleName(DatabaseRole.ROLE_JOURNALIST.name());
+        final var roleJournalist = roleRepository.findRoleByName(DatabaseRole.ROLE_JOURNALIST.name());
         final List<User> users = userRepository.findAllByRole(roleJournalist);
 
         return users

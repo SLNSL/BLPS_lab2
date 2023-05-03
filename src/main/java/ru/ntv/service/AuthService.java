@@ -68,7 +68,7 @@ public class AuthService {
         user.setLogin(newUser.getUsername());
         user.setPassword(encoder.encode(newUser.getPassword()));
         user.setRole(
-                roleRepository.findRoleByRoleName(
+                roleRepository.findRoleByName(
                         DatabaseRole.ROLE_CLIENT.name()
                 )
         );
@@ -112,7 +112,7 @@ public class AuthService {
         }
 
         userRepository.findByLogin(journalist.getUsername()).get().setRole(
-                roleRepository.findRoleByRoleName(
+                roleRepository.findRoleByName(
                         DatabaseRole.ROLE_JOURNALIST.name()
                 )
         );

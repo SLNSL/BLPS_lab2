@@ -1,9 +1,11 @@
 package ru.ntv.entity.users;
 
 import lombok.*;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 
 import java.util.Set;
@@ -24,6 +26,7 @@ public class Role {
 
     private String name;
 
-    @DBRef
-    Set<Privilege> privileges;
+
+    @DocumentReference
+    private Set<Privilege> privileges;
 }
