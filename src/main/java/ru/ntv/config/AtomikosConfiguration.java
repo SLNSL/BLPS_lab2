@@ -24,7 +24,7 @@ import javax.transaction.UserTransaction;
 public class AtomikosConfiguration {
 
     @Bean
-    public PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
     }
 
@@ -41,6 +41,7 @@ public class AtomikosConfiguration {
     public UserTransaction userTransaction() throws Throwable {
         UserTransactionImp userTransactionImp = new UserTransactionImp();
         userTransactionImp.setTransactionTimeout(10000);
+        
         return userTransactionImp;
     }
 
@@ -48,7 +49,6 @@ public class AtomikosConfiguration {
     public TransactionManager atomikosTransactionManager() {
         UserTransactionManager userTransactionManager = new UserTransactionManager();
         userTransactionManager.setForceShutdown(false);
-
         AtomikosJtaPlatform.transactionManager = userTransactionManager;
 
         return userTransactionManager;
@@ -58,10 +58,9 @@ public class AtomikosConfiguration {
     @DependsOn({"userTransaction", "atomikosTransactionManager"})
     public PlatformTransactionManager transactionManager() throws Throwable {
         UserTransaction userTransaction = userTransaction();
-
         AtomikosJtaPlatform.transaction = userTransaction;
-
         TransactionManager atomikosTransactionManager = atomikosTransactionManager();
+        
         return new JtaTransactionManager(userTransaction, atomikosTransactionManager);
     }
 

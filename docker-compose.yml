@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: nnik1320
+      POSTGRES_DB: articles
+    ports:
+      - "6001:5432"
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: nnik1320
+      MONGO_INITDB_DATABASE: people
+    ports:
+      - "5001:27017"

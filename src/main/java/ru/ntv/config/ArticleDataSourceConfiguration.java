@@ -19,7 +19,6 @@ import java.util.Map;
 @Configuration
 @EnableJpaRepositories(
         entityManagerFactoryRef = "ArticleDataSourceConfiguration",
-        transactionManagerRef = "transactionManager",
         basePackages = {"ru.ntv.repo.article"}
 )
 public class ArticleDataSourceConfiguration {
@@ -41,8 +40,7 @@ public class ArticleDataSourceConfiguration {
                 new HibernateJpaVendorAdapter(), articleJpaProperties(), null
         );
     }
-
-
+    
     @Bean(name = "ArticleDataSourceConfiguration")
     public LocalContainerEntityManagerFactoryBean getPostgresEntityManager(
             @Qualifier("articleEntityManagerFactoryBuilder") EntityManagerFactoryBuilder articleEntityManagerFactoryBuilder,
@@ -66,7 +64,6 @@ public class ArticleDataSourceConfiguration {
 
     @Bean("articleDataSource")
     public DataSource articleDataSource(@Qualifier("articleDataSourceProperties") DataSourceProperties articleDataSourceProperties) {
-        // return articleDataSourceProperties.initializeDataSourceBuilder().build();
         PGXADataSource ds = new PGXADataSource();
         ds.setUrl(articleDataSourceProperties.getUrl());
         ds.setUser(articleDataSourceProperties.getUsername());
