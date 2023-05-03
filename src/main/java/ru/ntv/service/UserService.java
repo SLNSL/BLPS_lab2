@@ -2,7 +2,6 @@ package ru.ntv.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.ntv.dto.response.boss.JournalistResponse;
 import ru.ntv.entity.articles.Article;
 import ru.ntv.entity.users.User;
@@ -31,11 +30,11 @@ public class UserService {
 
 
 //    @Transactional(transactionManager = "transactionManager")
-    public String dismissJournalist(int idJournalist){
+    public String dismissJournalist(String idJournalist){
 
             final var journalist = userRepository.findById(idJournalist).orElseThrow();
-            System.out.println(journalist.getLogin() + " " + journalist.getId() + " " + journalist.getRole().getRoleName());
-            if (!Objects.equals(journalist.getRole().getRoleName(), DatabaseRole.ROLE_JOURNALIST.name()))
+            System.out.println(journalist.getLogin() + " " + journalist.getId() + " " + journalist.getRole().getName());
+            if (!Objects.equals(journalist.getRole().getName(), DatabaseRole.ROLE_JOURNALIST.name()))
                 throw new NotRightRoleException("Это не журналист");
 
             journalist.setRole(
@@ -61,7 +60,7 @@ public class UserService {
     }
 
 
-    public JournalistResponse getJournalistById(int id) {
+    public JournalistResponse getJournalistById(String id) {
         final var user = userRepository.findById(id).get(); //todo throw custom Exception if user is not found
         
         return convertUserToJournalist(user);

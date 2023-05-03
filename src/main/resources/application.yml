@@ -8,11 +8,11 @@ server:
 spring:
   datasource:
     people:
-      uri: mongodb://localhost:5001/people
+      uri: mongodb://localhost:27017
       username: mongo
       password: nnik1320
     articles:
-      url: jdbc:postgresql://localhost:6001/articles
+      url: jdbc:postgresql://localhost:5432/news
       username: postgres
       password: nnik1320
       driver-class-name: org.postgresql.Driver

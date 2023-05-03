@@ -6,10 +6,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.ntv.dto.request.journalist.NewArticleRequest;
 import ru.ntv.entity.articles.Theme;
-import ru.ntv.entity.users.User;
 import ru.ntv.etc.DatabaseRole;
 import ru.ntv.exception.ArticleNotFoundException;
 import ru.ntv.dto.response.common.ArticlesResponse;
@@ -113,7 +111,7 @@ public class ArticleService {
     public List<Article> getArticlesByJournalistName(String name) {
         var journalist = userRepository.findByLogin(name).get(); //todo throw custom Exception if user is not found
 
-        if (!Objects.equals(journalist.getRole().getRoleName(), DatabaseRole.ROLE_JOURNALIST.name())) throw new RuntimeException(); //todo throw custom Exception that isn't boss
+        if (!Objects.equals(journalist.getRole().getName(), DatabaseRole.ROLE_JOURNALIST.name())) throw new RuntimeException(); //todo throw custom Exception that isn't boss
 
         return articleRepository.findAllByJournalistName(journalist.getLogin());
     }

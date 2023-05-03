@@ -27,7 +27,7 @@ public class BossJournalistController {
     AuthService authService;
 
     @GetMapping(params = "id")
-    ResponseEntity<JournalistResponse> getJournalistById(@RequestParam int id){
+    ResponseEntity<JournalistResponse> getJournalistById(@RequestParam String id){
         final JournalistResponse journalist = userService.getJournalistById(id);
         
         return ResponseEntity.ok(journalist);
@@ -41,7 +41,7 @@ public class BossJournalistController {
     }
 
     @DeleteMapping
-    ResponseEntity<?> dismissJournalist(@RequestParam int id) throws NotRightRoleException {
+    ResponseEntity<?> dismissJournalist(@RequestParam String id) throws NotRightRoleException {
         return ResponseEntity.ok(userService.dismissJournalist(id));
     }
     

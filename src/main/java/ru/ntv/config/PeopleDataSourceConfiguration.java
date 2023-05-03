@@ -22,7 +22,7 @@ public class PeopleDataSourceConfiguration {
 
     @Bean
     public MongoDatabaseFactory peopleDatabaseFactory() {
-        MongoClient mongoClient = MongoClients.create("mongodb://localhost:5001");
-        return new SimpleMongoClientDatabaseFactory(mongoClient, "people");
+        MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+        return new SimpleMongoClientDatabaseFactory(mongoClient, "test");
     }
 }

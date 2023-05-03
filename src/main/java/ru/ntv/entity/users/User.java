@@ -1,29 +1,28 @@
 package ru.ntv.entity.users;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import javax.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 import ru.ntv.entity.users.Role;
 
-@Entity
-@AllArgsConstructor
-@NoArgsConstructor
+//@Entity
+//@AllArgsConstructor
+//@NoArgsConstructor
+//@Data
+@Document("my_user")
 @Data
-@Table(name = "my_user")
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int id;
+    private String id;
 
-    @Column(name = "login")
     private String login;
 
-    @JsonIgnore
-    @Column(name = "password")
     private String password;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id", referencedColumnName = "id")
+    @DBRef
     private Role role;
 }

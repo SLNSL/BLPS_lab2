@@ -1,31 +1,29 @@
 package ru.ntv.entity.users;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import javax.persistence.*;
-import java.util.List;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
-@AllArgsConstructor
-@NoArgsConstructor
+
+import java.util.Set;
+
+//@Entity
+//@AllArgsConstructor
+//@NoArgsConstructor
+//@Data
+//@Table(name = "role")
+
+@Document("role")
 @Data
-@Table(name = "role")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Role {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @SequenceGenerator(name = "role_id_seq", sequenceName = "role_id_seq")
-    @Column(name = "id")
-    private int id;
+    private String id;
 
-    @Column(name = "role_name")
-    private String roleName;
+    private String name;
 
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER) //todo убрать FetchType.EAGER
-    @JoinTable(
-            name = "role_privilege",
-            joinColumns = {@JoinColumn(name = "role_id")},
-            inverseJoinColumns = {@JoinColumn(name = "privilege_id")}
-    )
-    private List<Privilege> privileges;
+    @DBRef
+    Set<Privilege> privileges;
 }
