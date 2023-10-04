@@ -34,6 +34,5 @@ build/
 .vscode/
 
 ### Other
-/src/main/resources/application.yml
 tmlog.lck
 tmlog3.log
