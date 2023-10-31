@@ -1,4 +1,4 @@
-package ru.ntv.entity.articles;
+package ru.ntv.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

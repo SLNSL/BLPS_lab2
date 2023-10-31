@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.ntv.dto.request.journalist.CreateThemeRequest;
-import ru.ntv.entity.articles.Theme;
+import ru.ntv.entity.Theme;
 import ru.ntv.service.ThemesService;
 
 import javax.validation.Valid;

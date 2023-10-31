@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.ntv.dto.response.common.ArticleListResponse;
 import ru.ntv.dto.response.common.ArticleResponse;
 import ru.ntv.dto.response.common.ArticlesResponse;
-import ru.ntv.entity.articles.Article;
+import ru.ntv.entity.Article;
 import ru.ntv.service.ArticleService;
 
 import javax.validation.constraints.Max;

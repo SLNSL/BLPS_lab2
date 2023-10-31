@@ -1,4 +1,4 @@
-package ru.ntv.entity.articles;
+package ru.ntv.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;

@@ -19,7 +19,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import ru.ntv.etc.DatabasePrivilege;
-import ru.ntv.repo.user.RoleRepository;
+import ru.ntv.repo.RoleRepository;
 import ru.ntv.security.JwtAuthenticationFilter;
 import ru.ntv.security.JwtAuthenticationPoint;
 
