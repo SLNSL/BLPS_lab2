@@ -1,7 +1,10 @@
 package ru.ntv.entity.articles;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -35,7 +38,7 @@ public class Article implements Serializable {
     @Column(name = "text", unique = true, length = 65535)
     private String text;
 
-    @Column(name="priority")
+    @Column(name = "priority")
     private Integer priority;
 
     @Column(name = "photo")

@@ -1,7 +1,5 @@
 package ru.ntv.controllers.journalist;
 
-import javax.transaction.Transactional;
-import javax.validation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -10,6 +8,8 @@ import ru.ntv.dto.request.journalist.NewArticleRequest;
 import ru.ntv.entity.articles.Article;
 import ru.ntv.exception.ArticleNotFoundException;
 import ru.ntv.service.ArticleService;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("articles")
@@ -21,14 +21,14 @@ public class JournalistArticleController {
 
 
     @PostMapping
-    ResponseEntity<Article> createArticle(@Valid @RequestBody NewArticleRequest newArticleRequest){
+    ResponseEntity<Article> createArticle(@Valid @RequestBody NewArticleRequest newArticleRequest) {
         final var article = articleService.createArticle(newArticleRequest);
 
         return ResponseEntity.ok(article);
     }
 
     @DeleteMapping(params = "id")
-    ResponseEntity<?> deleteArticle( @RequestParam int id){
+    ResponseEntity<?> deleteArticle(@RequestParam int id) {
         articleService.delete(id);
 
         return ResponseEntity.ok("OK");

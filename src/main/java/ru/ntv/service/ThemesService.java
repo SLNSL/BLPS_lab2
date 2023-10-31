@@ -21,20 +21,20 @@ public class ThemesService {
         this.articleRepository = articleRepository;
     }
 
-    public ThemesResponse getAllThemes(){
+    public ThemesResponse getAllThemes() {
         final var response = new ThemesResponse();
         response.setThemes((List<Theme>) themeRepository.findAll());
 
         return response;
     }
 
-    public Theme create(CreateThemeRequest req){
+    public Theme create(CreateThemeRequest req) {
         var theme = new Theme();
         theme.setThemeName(req.getName());
         return themeRepository.save(theme);
     }
 
-    public void delete(int id){
+    public void delete(int id) {
         final var theme = themeRepository.findById(id).orElse(null);
 
         if (theme == null) return;

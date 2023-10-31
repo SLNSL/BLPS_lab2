@@ -12,17 +12,16 @@ import ru.ntv.repo.article.ArticleRepository;
 import ru.ntv.repo.user.RoleRepository;
 import ru.ntv.repo.user.UserRepository;
 
-
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
 public class UserService {
-    
+
     @Autowired
     UserRepository userRepository;
-    
+
     @Autowired
     RoleRepository roleRepository;
 
@@ -33,39 +32,30 @@ public class UserService {
     @Transactional(transactionManager = "transactionManager")
     public String dismissJournalist(String idJournalist) {
 
-            final var journalist = userRepository.findById(idJournalist).orElseThrow();
-            System.out.println(journalist.getLogin() + " " + journalist.getId() + " " + journalist.getRole().getName());
-            if (!Objects.equals(journalist.getRole().getName(), DatabaseRole.ROLE_JOURNALIST.name()))
-                throw new NotRightRoleException("Это не журналист");
+        final var journalist = userRepository.findById(idJournalist).orElseThrow();
+        System.out.println(journalist.getLogin() + " " + journalist.getId() + " " + journalist.getRole().getName());
+        if (!Objects.equals(journalist.getRole().getName(), DatabaseRole.ROLE_JOURNALIST.name()))
+            throw new NotRightRoleException("Это не журналист");
 
-            journalist.setRole(
-                    roleRepository.findRoleByName(
-                            DatabaseRole.ROLE_CLIENT.name()
-                    )
-            );
+        journalist.setRole(
+                roleRepository.findRoleByName(
+                        DatabaseRole.ROLE_CLIENT.name()
+                )
+        );
+        
+        List<Article> articles = articleRepository.findAllByJournalistName(journalist.getLogin());
+        articles.forEach(e -> System.out.println(e.getJournalistName()));
+        articles.forEach(a -> a.setJournalistName(null));
+        userRepository.save(journalist);
+        articleRepository.saveAll(articles);
 
-
-            List<Article> articles = articleRepository.findAllByJournalistName(journalist.getLogin());
-
-            articles.forEach(e -> System.out.println(e.getJournalistName()));
-            articles.forEach(a -> a.setJournalistName(null));
-
-
-            userRepository.save(journalist);
-
-
-
-            articleRepository.saveAll(articles);
-
-            return "уволен";
-
-
+        return "уволен";
     }
 
 
     public JournalistResponse getJournalistById(String id) {
         final var user = userRepository.findById(id).get(); //todo throw custom Exception if user is not found
-        
+
         return convertUserToJournalist(user);
     }
 
@@ -78,8 +68,8 @@ public class UserService {
                 .map(this::convertUserToJournalist)
                 .collect(Collectors.toList());
     }
-    
-    private JournalistResponse convertUserToJournalist(User user){
+
+    private JournalistResponse convertUserToJournalist(User user) {
         return new JournalistResponse(
                 user.getId(),
                 user.getLogin()

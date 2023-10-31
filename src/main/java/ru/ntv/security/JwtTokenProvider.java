@@ -52,13 +52,13 @@ public class JwtTokenProvider {
 
     public String generateJWTFromAuthentication(Authentication authentication) {
         final User user = (User) authentication.getPrincipal();
-        
+
         return generateJWT(user.getUsername());
     }
 
     public String generateRefreshTokenFromAuthentication(Authentication authentication) {
         final User user = (User) authentication.getPrincipal();
-        
+
         return generateRefreshToken(user.getUsername());
     }
 

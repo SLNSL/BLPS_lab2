@@ -1,6 +1,7 @@
 package ru.ntv.config;
 
 import org.hibernate.engine.transaction.jta.platform.internal.AbstractJtaPlatform;
+
 import javax.transaction.TransactionManager;
 import javax.transaction.UserTransaction;
 

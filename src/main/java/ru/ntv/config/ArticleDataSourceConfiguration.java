@@ -40,7 +40,7 @@ public class ArticleDataSourceConfiguration {
                 new HibernateJpaVendorAdapter(), articleJpaProperties(), null
         );
     }
-    
+
     @Bean(name = "ArticleDataSourceConfiguration")
     public LocalContainerEntityManagerFactoryBean getPostgresEntityManager(
             @Qualifier("articleEntityManagerFactoryBuilder") EntityManagerFactoryBuilder articleEntityManagerFactoryBuilder,

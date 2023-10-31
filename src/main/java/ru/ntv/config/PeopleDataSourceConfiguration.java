@@ -2,26 +2,13 @@ package ru.ntv.config;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoCursor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.convert.CustomConversions;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
 import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
-import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
-import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import ru.ntv.config.converters.ObjectIdToPrivilegeConverter;
-import ru.ntv.config.converters.ObjectIdToRoleConverter;
-import ru.ntv.config.converters.PrivilegeToObjectIdConverter;
-import ru.ntv.config.converters.RoleToObjectIdConverter;
-import ru.ntv.repo.user.PrivilegeRepository;
-import ru.ntv.repo.user.RoleRepository;
-
-import java.util.Arrays;
 
 @Configuration
 @EnableMongoRepositories(
@@ -31,7 +18,7 @@ public class PeopleDataSourceConfiguration {
 
     @Bean
     public MongoTemplate mongoTemplate() {
-        final var template =  new MongoTemplate(peopleDatabaseFactory());
+        final var template = new MongoTemplate(peopleDatabaseFactory());
         final var conv = (MappingMongoConverter) template.getConverter();
 
 //        MappingMongoConverter converter = new MappingMongoConverter(peopleDatabaseFactory(), new MongoMappingContext());

@@ -1,7 +1,5 @@
 package ru.ntv.controllers.common;
 
-import javax.validation.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -11,6 +9,8 @@ import ru.ntv.dto.request.auth.NewUser;
 import ru.ntv.dto.request.auth.OldUser;
 import ru.ntv.dto.response.auth.AuthResponse;
 import ru.ntv.service.AuthService;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("auth")
@@ -25,12 +25,12 @@ public class AuthController {
     }
 
     @PostMapping("sign-up")
-    ResponseEntity<AuthResponse> signUp(@Valid @RequestBody NewUser newUser){
+    ResponseEntity<AuthResponse> signUp(@Valid @RequestBody NewUser newUser) {
         return authService.signUp(newUser);
     }
-    
+
     @PostMapping("refresh_token")
-    ResponseEntity<AuthResponse> refreshToken(@RequestParam String jwt)  {
+    ResponseEntity<AuthResponse> refreshToken(@RequestParam String jwt) {
         return ResponseEntity.ok(authService.refreshToken(jwt));
     }
 }

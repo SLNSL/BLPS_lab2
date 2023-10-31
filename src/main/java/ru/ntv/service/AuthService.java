@@ -38,12 +38,12 @@ public class AuthService {
 
     public AuthResponse signIn(OldUser user) throws BadCredentialsException {
         final var response = new AuthResponse();
-        
+
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        
+
         final var jwt = jwtUtils.generateJWTFromAuthentication(authentication);
         final var refreshToken = jwtUtils.generateRefreshTokenFromAuthentication(authentication);
         response.setJwt("Bearer " + jwt);
@@ -54,7 +54,7 @@ public class AuthService {
 
     public ResponseEntity<AuthResponse> signUp(NewUser newUser) {
         final var response = new AuthResponse();
-        
+
         if (userRepository.existsByLogin(newUser.getUsername())) {
             response.setErrorMessage("This login is already taken");
             return ResponseEntity
@@ -91,23 +91,23 @@ public class AuthService {
 
     public AuthResponse refreshToken(String jwt) {
         final var response = new AuthResponse();
-        
-        if (!jwtUtils.validateRefreshToken(jwt)){
+
+        if (!jwtUtils.validateRefreshToken(jwt)) {
             response.setErrorMessage("Invalid or expired refresh token");
             return response;
         }
-        
+
         final var userLogin = jwtUtils.getUserLoginFromToken(jwt);
         response.setJwt("Bearer " + jwtUtils.generateJWT(userLogin));
         response.setRefreshToken(jwtUtils.generateRefreshToken(userLogin));
-        
+
         return response;
     }
 
     public ResponseEntity<AuthResponse> createJournalist(NewUser journalist) {
         final var response = signUp(journalist);
-        
-        if (!response.getStatusCode().is2xxSuccessful()){
+
+        if (!response.getStatusCode().is2xxSuccessful()) {
             return response;
         }
 
@@ -116,7 +116,7 @@ public class AuthService {
                         DatabaseRole.ROLE_JOURNALIST.name()
                 )
         );
-        
+
         return response;
     }
 }
