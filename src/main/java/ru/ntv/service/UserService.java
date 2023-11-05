@@ -30,7 +30,7 @@ public class UserService {
 
 
     @Transactional(transactionManager = "transactionManager")
-    public String dismissJournalist(String idJournalist) {
+    public String dismissJournalist(Integer idJournalist) {
 
         final var journalist = userRepository.findById(idJournalist).orElseThrow();
         System.out.println(journalist.getLogin() + " " + journalist.getId() + " " + journalist.getRole().getRoleName());
@@ -53,7 +53,7 @@ public class UserService {
     }
 
 
-    public JournalistResponse getJournalistById(String id) {
+    public JournalistResponse getJournalistById(int id) {
         final var user = userRepository.findById(id).get(); //todo throw custom Exception if user is not found
 
         return convertUserToJournalist(user);

@@ -15,7 +15,7 @@ import java.util.List;
 public class UpdateRequest {
     private List<Integer> themeIds;
 
-    private int id;
+    private Integer id;
 
     @Size(min = 2, max = 50)
     private String header;

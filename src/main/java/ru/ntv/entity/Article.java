@@ -19,7 +19,7 @@ public class Article implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Integer id;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
