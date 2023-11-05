@@ -22,8 +22,6 @@ import ru.ntv.etc.DatabasePrivilege;
 import ru.ntv.repo.RoleRepository;
 import ru.ntv.security.JwtAuthenticationFilter;
 import ru.ntv.security.JwtAuthenticationPoint;
-
-import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Configuration
@@ -39,11 +37,6 @@ public class SecurityConfig {
 
     @Autowired
     RoleRepository privilegeRepository;
-
-    @PostConstruct
-    public void go() {
-        privilegeRepository.findAll().forEach(System.out::println);
-    }
 
     @Bean
     PasswordEncoder passwordEncoder() {

@@ -71,7 +71,7 @@ public class UserService {
 
     private JournalistResponse convertUserToJournalist(User user) {
         return new JournalistResponse(
-                user.getId(),
+                String.valueOf(user.getId()),
                 user.getLogin()
         );
     }

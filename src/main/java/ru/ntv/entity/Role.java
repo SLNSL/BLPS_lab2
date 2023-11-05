@@ -19,8 +19,8 @@ public class Role {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "role_name")
-    private String roleName;
+    @Column(name = "name")
+    private String name;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER) //todo убрать FetchType.EAGER
@@ -30,4 +30,8 @@ public class Role {
             inverseJoinColumns = {@JoinColumn(name = "privilege_id")}
     )
     private Set<Privilege> privileges;
+    
+    public String getRoleName(){
+        return name;
+    }
 }
