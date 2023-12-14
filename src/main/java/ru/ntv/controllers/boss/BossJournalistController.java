@@ -19,7 +19,7 @@ import java.util.List;
 @Validated
 @RequestMapping("journalists")
 public class BossJournalistController {
-    
+
     @Autowired
     UserService userService;
 
@@ -27,26 +27,26 @@ public class BossJournalistController {
     AuthService authService;
 
     @GetMapping(params = "id")
-    ResponseEntity<JournalistResponse> getJournalistById(@RequestParam String id){
+    ResponseEntity<JournalistResponse> getJournalistById(@RequestParam Integer id) {
         final JournalistResponse journalist = userService.getJournalistById(id);
-        
+
         return ResponseEntity.ok(journalist);
     }
 
     @GetMapping
-    ResponseEntity<JournalistListResponse> getAllJournalists(){
+    ResponseEntity<JournalistListResponse> getAllJournalists() {
         final List<JournalistResponse> journalists = userService.getAllJournalists();
 
         return ResponseEntity.ok(new JournalistListResponse(journalists));
     }
 
     @DeleteMapping
-    ResponseEntity<?> dismissJournalist(@RequestParam String id) throws NotRightRoleException {
+    ResponseEntity<?> dismissJournalist(@RequestParam Integer id) throws NotRightRoleException {
         return ResponseEntity.ok(userService.dismissJournalist(id));
     }
-    
+
     @PostMapping
-    ResponseEntity<AuthResponse> createJournalist(@Valid @RequestBody NewUser journalist)  {
+    ResponseEntity<AuthResponse> createJournalist(@Valid @RequestBody NewUser journalist) {
         return authService.createJournalist(journalist);
     }
 }

@@ -3,7 +3,7 @@ package ru.ntv.dto.request.common;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.ntv.entity.articles.Theme;
+import ru.ntv.entity.Theme;
 
 import java.io.Serializable;
 import java.util.List;

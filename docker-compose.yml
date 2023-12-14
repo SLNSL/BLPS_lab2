@@ -2,20 +2,18 @@ version: '3'
 
 services:
   postgres:
+    container_name: postgres_db
     image: postgres
     restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: nnik1320
-      POSTGRES_DB: articles
+      POSTGRES_USER: scientist
+      POSTGRES_PASSWORD: laboratory
+      POSTGRES_DB: ntv
     ports:
-      - "6001:5432"
-  mongo:
-    image: mongo
-    restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: mongo
-      MONGO_INITDB_ROOT_PASSWORD: nnik1320
-      MONGO_INITDB_DATABASE: people
-    ports:
-      - "5001:27017"
+      - "6010:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      #- ./src/main/resources/data.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  db_data:

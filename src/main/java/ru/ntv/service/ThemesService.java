@@ -3,10 +3,10 @@ package ru.ntv.service;
 import org.springframework.stereotype.Service;
 import ru.ntv.dto.request.journalist.CreateThemeRequest;
 import ru.ntv.dto.response.common.ThemesResponse;
-import ru.ntv.entity.articles.Article;
-import ru.ntv.entity.articles.Theme;
-import ru.ntv.repo.article.ArticleRepository;
-import ru.ntv.repo.article.ThemeRepository;
+import ru.ntv.entity.Article;
+import ru.ntv.entity.Theme;
+import ru.ntv.repo.ArticleRepository;
+import ru.ntv.repo.ThemeRepository;
 
 import java.util.List;
 
@@ -21,20 +21,20 @@ public class ThemesService {
         this.articleRepository = articleRepository;
     }
 
-    public ThemesResponse getAllThemes(){
+    public ThemesResponse getAllThemes() {
         final var response = new ThemesResponse();
         response.setThemes((List<Theme>) themeRepository.findAll());
 
         return response;
     }
 
-    public Theme create(CreateThemeRequest req){
+    public Theme create(CreateThemeRequest req) {
         var theme = new Theme();
         theme.setThemeName(req.getName());
         return themeRepository.save(theme);
     }
 
-    public void delete(int id){
+    public void delete(int id) {
         final var theme = themeRepository.findById(id).orElse(null);
 
         if (theme == null) return;

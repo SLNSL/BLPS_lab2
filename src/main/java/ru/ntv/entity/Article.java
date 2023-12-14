@@ -1,7 +1,10 @@
-package ru.ntv.entity.articles;
+package ru.ntv.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -16,7 +19,7 @@ public class Article implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Integer id;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -35,7 +38,7 @@ public class Article implements Serializable {
     @Column(name = "text", unique = true, length = 65535)
     private String text;
 
-    @Column(name="priority")
+    @Column(name = "priority")
     private Integer priority;
 
     @Column(name = "photo")

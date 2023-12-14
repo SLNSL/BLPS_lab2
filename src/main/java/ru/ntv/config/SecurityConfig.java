@@ -1,6 +1,5 @@
 package ru.ntv.config;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,37 +18,28 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import ru.ntv.entity.users.Privilege;
 import ru.ntv.etc.DatabasePrivilege;
-import ru.ntv.repo.user.PrivilegeRepository;
-import ru.ntv.repo.user.RoleRepository;
+import ru.ntv.repo.RoleRepository;
 import ru.ntv.security.JwtAuthenticationFilter;
 import ru.ntv.security.JwtAuthenticationPoint;
-
-import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Configuration
 @EnableWebSecurity
 @EnableTransactionManagement
-public class SecurityConfig{
-    
+public class SecurityConfig {
+
     @Autowired
     private JwtAuthenticationPoint unauthorizedHandler;
-    
+
     @Autowired
     JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Autowired
     RoleRepository privilegeRepository;
 
-    @PostConstruct
-    public void go(){
-        privilegeRepository.findAll().forEach(System.out::println);
-    }
-
     @Bean
-    PasswordEncoder passwordEncoder(){
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -82,7 +72,7 @@ public class SecurityConfig{
                 .and()
                 .authorizeHttpRequests((auth) -> auth
                         .antMatchers("/auth/**").permitAll()
-                        
+
                         .antMatchers(HttpMethod.GET, "/articles/**").permitAll()
                         .antMatchers(HttpMethod.POST, "/articles/**").hasAuthority(DatabasePrivilege.CAN_POST_ARTICLES.name())
                         .antMatchers(HttpMethod.PUT, "/articles/**").hasAuthority(DatabasePrivilege.CAN_PUT_ARTICLES.name())
@@ -95,7 +85,7 @@ public class SecurityConfig{
                         .antMatchers(HttpMethod.GET, "/journalists/**").hasAuthority(DatabasePrivilege.CAN_GET_JOURNALISTS.name())
                         .antMatchers(HttpMethod.POST, "/journalists/**").hasAuthority(DatabasePrivilege.CAN_POST_JOURNALISTS.name())
                         .antMatchers(HttpMethod.DELETE, "/journalists/**").hasAuthority(DatabasePrivilege.CAN_DELETE_JOURNALISTS.name())
-                        
+
                         .antMatchers("*").denyAll()
                 )
                 .build();
