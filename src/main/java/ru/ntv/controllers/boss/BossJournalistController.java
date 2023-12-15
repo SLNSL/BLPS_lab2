@@ -1,10 +1,12 @@
 package ru.ntv.controllers.boss;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.ntv.dto.request.auth.NewUser;
+import ru.ntv.dto.request.boss.CreateJournalistRequest;
 import ru.ntv.dto.response.auth.AuthResponse;
 import ru.ntv.dto.response.boss.JournalistListResponse;
 import ru.ntv.dto.response.boss.JournalistResponse;
@@ -31,6 +33,13 @@ public class BossJournalistController {
         final JournalistResponse journalist = userService.getJournalistById(id);
 
         return ResponseEntity.ok(journalist);
+    }
+
+    @PostMapping
+    ResponseEntity<JournalistResponse> hireJournalist(@RequestBody CreateJournalistRequest journalist) {
+        final JournalistResponse response = userService.createJournalist(journalist);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping
