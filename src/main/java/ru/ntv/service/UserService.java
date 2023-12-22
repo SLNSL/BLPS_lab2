@@ -19,14 +19,17 @@ import java.util.stream.Collectors;
 @Service
 public class UserService {
 
-    @Autowired
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
-    @Autowired
-    ArticleRepository articleRepository;
+    private final ArticleRepository articleRepository;
+
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, ArticleRepository articleRepository) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.articleRepository = articleRepository;
+    }
 
 
     @Transactional(transactionManager = "transactionManager")
@@ -42,7 +45,7 @@ public class UserService {
                         DatabaseRole.ROLE_CLIENT.name()
                 )
         );
-        
+
         List<Article> articles = articleRepository.findAllByJournalistName(journalist.getLogin());
         articles.forEach(e -> System.out.println(e.getJournalistName()));
         articles.forEach(a -> a.setJournalistName(null));

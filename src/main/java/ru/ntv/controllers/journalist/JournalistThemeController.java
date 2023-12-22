@@ -15,8 +15,11 @@ import javax.validation.Valid;
 @Validated
 public class JournalistThemeController {
 
-    @Autowired
-    private ThemesService themesService;
+    private final ThemesService themesService;
+
+    public JournalistThemeController(ThemesService themesService) {
+        this.themesService = themesService;
+    }
 
     @PostMapping()
     ResponseEntity<Theme> create(@Valid @RequestBody CreateThemeRequest req) {

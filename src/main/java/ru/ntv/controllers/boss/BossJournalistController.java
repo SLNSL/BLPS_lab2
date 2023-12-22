@@ -20,11 +20,14 @@ import java.util.List;
 @RequestMapping("journalists")
 public class BossJournalistController {
 
-    @Autowired
-    UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    AuthService authService;
+    private final AuthService authService;
+
+    public BossJournalistController(UserService userService, AuthService authService) {
+        this.userService = userService;
+        this.authService = authService;
+    }
 
     @GetMapping(params = "id")
     ResponseEntity<JournalistResponse> getJournalistById(@RequestParam Integer id) {

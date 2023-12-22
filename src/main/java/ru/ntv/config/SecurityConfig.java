@@ -29,14 +29,15 @@ import java.util.List;
 @EnableTransactionManagement
 public class SecurityConfig {
 
-    @Autowired
-    private JwtAuthenticationPoint unauthorizedHandler;
+    private final JwtAuthenticationPoint unauthorizedHandler;
 
-    @Autowired
-    JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    @Autowired
-    RoleRepository privilegeRepository;
+
+    public SecurityConfig(JwtAuthenticationPoint unauthorizedHandler, JwtAuthenticationFilter jwtAuthenticationFilter) {
+        this.unauthorizedHandler = unauthorizedHandler;
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+    }
 
     @Bean
     PasswordEncoder passwordEncoder() {

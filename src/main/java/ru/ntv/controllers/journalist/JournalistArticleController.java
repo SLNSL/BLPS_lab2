@@ -16,8 +16,11 @@ import javax.validation.Valid;
 @Validated
 public class JournalistArticleController {
 
-    @Autowired
-    private ArticleService articleService;
+    private final ArticleService articleService;
+
+    public JournalistArticleController(ArticleService articleService) {
+        this.articleService = articleService;
+    }
 
 
     @PostMapping
