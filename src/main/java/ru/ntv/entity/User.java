@@ -25,4 +25,7 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     private Role role;
+
+    @Version
+    private Long version;
 }

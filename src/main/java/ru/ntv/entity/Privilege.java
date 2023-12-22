@@ -34,4 +34,7 @@ public class Privilege implements GrantedAuthority {
             inverseJoinColumns = {@JoinColumn(name = "role_id")}
     )
     private Set<Role> roles;
+
+    @Version
+    private Long version;
 }

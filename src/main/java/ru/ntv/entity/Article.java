@@ -50,4 +50,7 @@ public class Article implements Serializable {
 
     @Column(name = "journalist_name")
     private String journalistName;
+
+    @Version
+    private Long version;
 }
