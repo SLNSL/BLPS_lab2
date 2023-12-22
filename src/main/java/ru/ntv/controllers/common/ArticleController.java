@@ -24,8 +24,11 @@ import java.util.Optional;
 @RequestMapping("articles")
 public class ArticleController {
 
-    @Autowired
-    private ArticleService articleService;
+    private final ArticleService articleService;
+
+    public ArticleController(ArticleService articleService) {
+        this.articleService = articleService;
+    }
 
     @GetMapping(params = "header")
     ResponseEntity<ArticlesResponse> getArticlesByHeader(@RequestParam String header) {

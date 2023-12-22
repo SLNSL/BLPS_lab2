@@ -22,20 +22,23 @@ import ru.ntv.security.JwtTokenProvider;
 @Service
 public class AuthService {
 
-    @Autowired
-    AuthenticationManager authenticationManager;
+    final AuthenticationManager authenticationManager;
 
-    @Autowired
-    JwtTokenProvider jwtUtils;
+    final JwtTokenProvider jwtUtils;
 
-    @Autowired
-    UserRepository userRepository;
+    final UserRepository userRepository;
 
-    @Autowired
-    PasswordEncoder encoder;
+    final PasswordEncoder encoder;
 
-    @Autowired
-    RoleRepository roleRepository;
+    final RoleRepository roleRepository;
+
+    public AuthService(AuthenticationManager authenticationManager, JwtTokenProvider jwtUtils, UserRepository userRepository, PasswordEncoder encoder, RoleRepository roleRepository) {
+        this.authenticationManager = authenticationManager;
+        this.jwtUtils = jwtUtils;
+        this.userRepository = userRepository;
+        this.encoder = encoder;
+        this.roleRepository = roleRepository;
+    }
 
     public AuthResponse signIn(OldUser user) throws BadCredentialsException {
         final var response = new AuthResponse();
