@@ -31,14 +31,14 @@ public class BossJournalistController {
 
     @GetMapping(params = "id")
     ResponseEntity<JournalistResponse> getJournalistById(@RequestParam Integer id) {
-        final JournalistResponse journalist = userService.getJournalistById(id);
+        final var journalist = userService.getJournalistById(id);
 
         return ResponseEntity.ok(journalist);
     }
 
     @GetMapping
     ResponseEntity<JournalistListResponse> getAllJournalists() {
-        final List<JournalistResponse> journalists = userService.getAllJournalists();
+        final var journalists = userService.getAllJournalists();
 
         return ResponseEntity.ok(new JournalistListResponse(journalists));
     }

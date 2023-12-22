@@ -33,7 +33,7 @@ public class ArticleController {
     ResponseEntity<ArticlesResponse> getArticlesByHeader(@RequestParam String header) {
         final var res = new ArticlesResponse();
 
-        List<Article> optionalArticles = articleService.findByHeader(header);
+        var optionalArticles = articleService.findByHeader(header);
 
         res.setArticles(optionalArticles);
         return ResponseEntity.ok(res);
@@ -51,7 +51,7 @@ public class ArticleController {
     ResponseEntity<ArticleResponse> getArticleById(@RequestParam int id) {
         final var res = new ArticleResponse();
 
-        Optional<Article> optionalArticle = articleService.findById(id);
+        var optionalArticle = articleService.findById(id);
         optionalArticle.ifPresent(res::setArticle);
 
         return ResponseEntity.ok(res);

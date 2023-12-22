@@ -42,7 +42,7 @@ public class AuthService {
     public AuthResponse signIn(OldUser user) throws BadCredentialsException {
         final var response = new AuthResponse();
 
-        Authentication authentication = authenticationManager.authenticate(
+        var authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
