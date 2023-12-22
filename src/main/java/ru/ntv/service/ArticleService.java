@@ -37,14 +37,14 @@ public class ArticleService {
         this.userRepository = userRepository;
     }
 
-    public Optional<List<Article>> findByHeader(String header) {
+    public List<Article> findByHeader(String header) {
         return articleRepository.findAllByHeaderContainingIgnoreCase(header);
     }
 
     public List<Article> getArticlesByThemes(List<Integer> theme_ids) {
         final var themes = themeRepository.findAllById(theme_ids);
 
-        return articleRepository.findByThemesIn((Collection<Theme>) themes);
+        return articleRepository.findByThemesIn(themes);
     }
 
     public Optional<Article> findById(int id) {
@@ -109,13 +109,4 @@ public class ArticleService {
         return article;
     }
 
-
-    public List<Article> getArticlesByJournalistName(String name) {
-        var journalist = userRepository.findByLogin(name).get(); //todo throw custom Exception if user is not found
-
-        if (!Objects.equals(journalist.getRole().getRoleName(), DatabaseRole.ROLE_JOURNALIST.name()))
-            throw new RuntimeException(); //todo throw custom Exception that isn't boss
-
-        return articleRepository.findAllByJournalistName(journalist.getLogin());
-    }
 }
