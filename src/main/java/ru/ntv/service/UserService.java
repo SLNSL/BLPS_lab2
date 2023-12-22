@@ -1,8 +1,13 @@
 package ru.ntv.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
+import ru.ntv.dto.request.boss.CreateJournalistRequest;
 import ru.ntv.dto.response.boss.JournalistResponse;
 import ru.ntv.entity.Article;
 import ru.ntv.entity.User;
@@ -24,11 +29,16 @@ public class UserService {
     private final RoleRepository roleRepository;
 
     private final ArticleRepository articleRepository;
+    
+    private final PasswordEncoder encoder;
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, ArticleRepository articleRepository) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository,
+                       ArticleRepository articleRepository,
+                       PasswordEncoder encoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.articleRepository = articleRepository;
+        this.encoder = encoder;
     }
 
 
@@ -72,9 +82,28 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+    public JournalistResponse createJournalist(CreateJournalistRequest newUser) {
+        if (userRepository.existsByLogin(newUser.getLogin())) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "This login is already taken");
+        }
+
+        // Create journalist's account
+        final var user = new User();
+        user.setLogin(newUser.getLogin());
+        user.setPassword(encoder.encode(newUser.getPassword()));
+        user.setRole(
+                roleRepository.findRoleByName(
+                        DatabaseRole.ROLE_JOURNALIST.name()
+                )
+        );
+        final var savedUser = userRepository.save(user);
+
+        return convertUserToJournalist(savedUser);
+    }
+
     private JournalistResponse convertUserToJournalist(User user) {
         return new JournalistResponse(
-                String.valueOf(user.getId()),
+                user.getId(),
                 user.getLogin()
         );
     }
