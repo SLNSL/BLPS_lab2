@@ -27,9 +27,9 @@ public class JwtTokenProvider {
     private long refreshTokenExpirationPeriod;
 
     public String generateToken(String login, long period, ChronoUnit unit, boolean isAccessToken) {
-        Instant now = Instant.now();
-        Instant expiration = now.plus(period, unit);
-        Map<String, Object> claims = new HashMap<>();
+        var now = Instant.now();
+        var expiration = now.plus(period, unit);
+        var claims = new HashMap<String, Object>();
         claims.put("isAccessToken", isAccessToken);
 
         return Jwts.builder()
@@ -51,19 +51,19 @@ public class JwtTokenProvider {
     }
 
     public String generateJWTFromAuthentication(Authentication authentication) {
-        final User user = (User) authentication.getPrincipal();
+        final var user = (User) authentication.getPrincipal();
 
         return generateJWT(user.getUsername());
     }
 
     public String generateRefreshTokenFromAuthentication(Authentication authentication) {
-        final User user = (User) authentication.getPrincipal();
+        final var user = (User) authentication.getPrincipal();
 
         return generateRefreshToken(user.getUsername());
     }
 
     public String getUserLoginFromToken(String token) {
-        Claims claims = Jwts
+        var claims = Jwts
                 .parser()
                 .setSigningKey(jwtSecret)
                 .parseClaimsJws(token)

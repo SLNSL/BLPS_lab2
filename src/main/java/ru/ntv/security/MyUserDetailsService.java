@@ -19,7 +19,7 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        final User user = userRepository
+        final var user = userRepository
                 .findByLogin(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found."));
         final var role = user.getRole();

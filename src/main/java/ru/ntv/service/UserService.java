@@ -56,7 +56,7 @@ public class UserService {
                 )
         );
 
-        List<Article> articles = articleRepository.findAllByJournalistName(journalist.getLogin());
+        var articles = articleRepository.findAllByJournalistName(journalist.getLogin());
         articles.forEach(e -> System.out.println(e.getJournalistName()));
         articles.forEach(a -> a.setJournalistName(null));
         userRepository.save(journalist);
