@@ -30,4 +30,7 @@ public class Theme {
             inverseJoinColumns = {@JoinColumn(name = "article_id")}
     )
     private List<Article> articles;
+
+    @Version
+    private Long version;
 }
