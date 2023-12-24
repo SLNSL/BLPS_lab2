@@ -4,6 +4,10 @@ server:
     context-path: /
     session:
       timeout: 600s
+  ssl:
+    enabled: true
+    key-store: classpath:keystore/util.p12
+    key-store-password: 123456
 
 spring:
   datasource:

@@ -29,14 +29,15 @@ import java.util.List;
 @EnableTransactionManagement
 public class SecurityConfig {
 
-    @Autowired
-    private JwtAuthenticationPoint unauthorizedHandler;
+    private final JwtAuthenticationPoint unauthorizedHandler;
 
-    @Autowired
-    JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    @Autowired
-    RoleRepository privilegeRepository;
+
+    public SecurityConfig(JwtAuthenticationPoint unauthorizedHandler, JwtAuthenticationFilter jwtAuthenticationFilter) {
+        this.unauthorizedHandler = unauthorizedHandler;
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+    }
 
     @Bean
     PasswordEncoder passwordEncoder() {
@@ -85,6 +86,9 @@ public class SecurityConfig {
                         .antMatchers(HttpMethod.GET, "/journalists/**").hasAuthority(DatabasePrivilege.CAN_GET_JOURNALISTS.name())
                         .antMatchers(HttpMethod.POST, "/journalists/**").hasAuthority(DatabasePrivilege.CAN_POST_JOURNALISTS.name())
                         .antMatchers(HttpMethod.DELETE, "/journalists/**").hasAuthority(DatabasePrivilege.CAN_DELETE_JOURNALISTS.name())
+
+                        .antMatchers(HttpMethod.GET, "/images/**").hasAuthority(DatabasePrivilege.CAN_GET_ARTICLES.name())
+                        .antMatchers(HttpMethod.POST, "/images/**").hasAuthority(DatabasePrivilege.CAN_POST_ARTICLES.name())
 
                         .antMatchers("*").denyAll()
                 )

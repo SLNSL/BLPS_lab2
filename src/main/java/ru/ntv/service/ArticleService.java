@@ -24,15 +24,18 @@ import java.util.Optional;
 @Service
 public class ArticleService {
 
-    @Autowired
-    private ArticleRepository articleRepository;
+    private final ArticleRepository articleRepository;
 
-    @Autowired
-    private ThemeRepository themeRepository;
+    private final ThemeRepository themeRepository;
 
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public ArticleService(ArticleRepository articleRepository, ThemeRepository themeRepository, UserRepository userRepository) {
+        this.articleRepository = articleRepository;
+        this.themeRepository = themeRepository;
+        this.userRepository = userRepository;
+    }
 
     public Optional<List<Article>> findByHeader(String header) {
         return articleRepository.findAllByHeaderContainingIgnoreCase(header);

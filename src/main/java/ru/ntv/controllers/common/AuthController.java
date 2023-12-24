@@ -16,8 +16,11 @@ import javax.validation.Valid;
 @RequestMapping("auth")
 @Validated
 public class AuthController {
-    @Autowired
-    AuthService authService;
+    private final AuthService authService;
+
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
 
     @PostMapping("sign-in")
     ResponseEntity<AuthResponse> signIn(@Valid @RequestBody OldUser user) throws BadCredentialsException {

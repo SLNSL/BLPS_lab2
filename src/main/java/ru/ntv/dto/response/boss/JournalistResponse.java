@@ -10,6 +10,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class JournalistResponse implements Serializable {
-    private String id;
+    private Integer id;
     private String username;
 }
