@@ -56,9 +56,4 @@ public class BossJournalistController {
     ResponseEntity<?> dismissJournalist(@RequestParam Integer id) throws NotRightRoleException {
         return ResponseEntity.ok(userService.dismissJournalist(id));
     }
-
-    @PostMapping
-    ResponseEntity<AuthResponse> createJournalist(@Valid @RequestBody NewUser journalist) {
-        return authService.createJournalist(journalist);
-    }
 }
