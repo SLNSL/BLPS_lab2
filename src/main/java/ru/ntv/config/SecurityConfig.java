@@ -87,6 +87,9 @@ public class SecurityConfig {
                         .antMatchers(HttpMethod.POST, "/journalists/**").hasAuthority(DatabasePrivilege.CAN_POST_JOURNALISTS.name())
                         .antMatchers(HttpMethod.DELETE, "/journalists/**").hasAuthority(DatabasePrivilege.CAN_DELETE_JOURNALISTS.name())
 
+                        .antMatchers(HttpMethod.GET, "/images/**").hasAuthority(DatabasePrivilege.CAN_GET_ARTICLES.name())
+                        .antMatchers(HttpMethod.POST, "/images/**").hasAuthority(DatabasePrivilege.CAN_POST_ARTICLES.name())
+
                         .antMatchers("*").denyAll()
                 )
                 .build();
