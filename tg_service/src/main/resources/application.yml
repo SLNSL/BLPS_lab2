@@ -1,0 +1,32 @@
+server:
+  port: 21412
+  servlet:
+    context-path: /
+    session:
+      timeout: 600s
+
+
+bot:
+  name: Deadline Bot
+  token: 6761629168:AAHOyhJ2IdSuM2yA7kn6POzJ9clByVMl1M8
+
+spring:
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
+
+  datasource:
+    url: jdbc:postgresql://localhost:8321/otv_processing_db
+    username: sllnsl
+    password: sllnsl
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  mvc:
+    format:
+      date-time: yyyy-MM-dd HH:mm:ss
