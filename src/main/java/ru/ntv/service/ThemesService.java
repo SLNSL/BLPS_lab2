@@ -23,7 +23,7 @@ public class ThemesService {
 
     public ThemesResponse getAllThemes() {
         final var response = new ThemesResponse();
-        response.setThemes((List<Theme>) themeRepository.findAll());
+        response.setThemes(themeRepository.findAll());
 
         return response;
     }
@@ -39,7 +39,7 @@ public class ThemesService {
 
         if (theme == null) return;
 
-        List<Article> articles = theme.getArticles();
+        var articles = theme.getArticles();
         for (Article article : articles) {
             article.getThemes().remove(theme);
             articleRepository.save(article);

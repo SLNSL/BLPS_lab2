@@ -1,11 +1,15 @@
 package ru.ntv.service;
 
+import org.apache.kafka.clients.producer.Producer;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import ru.ntv.dto.Converter;
+import ru.ntv.dto.kafka.ArticleKafkaDTO;
 import ru.ntv.dto.request.journalist.NewArticleRequest;
 import ru.ntv.dto.response.common.ArticlesResponse;
 import ru.ntv.entity.Article;
@@ -20,6 +24,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ArticleService {
@@ -28,8 +33,10 @@ public class ArticleService {
 
     private final ThemeRepository themeRepository;
 
-
     private final UserRepository userRepository;
+
+    @Autowired
+    private Producer<String, ArticleKafkaDTO> producer;
 
     public ArticleService(ArticleRepository articleRepository, ThemeRepository themeRepository, UserRepository userRepository) {
         this.articleRepository = articleRepository;
@@ -37,14 +44,14 @@ public class ArticleService {
         this.userRepository = userRepository;
     }
 
-    public Optional<List<Article>> findByHeader(String header) {
+    public List<Article> findByHeader(String header) {
         return articleRepository.findAllByHeaderContainingIgnoreCase(header);
     }
 
     public List<Article> getArticlesByThemes(List<Integer> theme_ids) {
         final var themes = themeRepository.findAllById(theme_ids);
 
-        return articleRepository.findByThemesIn((Collection<Theme>) themes);
+        return articleRepository.findByThemesIn(themes);
     }
 
     public Optional<Article> findById(int id) {
@@ -52,9 +59,29 @@ public class ArticleService {
     }
 
     public Article createArticle(NewArticleRequest newArticleRequest) {
-        return articleRepository.save(
-                convertNewArticleRequestToArticle(newArticleRequest)
+        Article article = convertNewArticleRequestToArticle(newArticleRequest);
+        article = articleRepository.save(article);
+
+        ArticleKafkaDTO articleKafkaDTO = new ArticleKafkaDTO();
+        articleKafkaDTO.setHeader(newArticleRequest.getHeader());
+        articleKafkaDTO.setSubheader(newArticleRequest.getSubheader());
+        articleKafkaDTO.setText(newArticleRequest.getText());
+        articleKafkaDTO.setPhotoURL(newArticleRequest.getPhotoURL());
+        articleKafkaDTO.setThemes(
+                article.getThemes().stream().map(Converter::themeToDtoConverter).collect(Collectors.toList())
         );
+
+        ProducerRecord<String, ArticleKafkaDTO> record = new ProducerRecord<>(
+                "article-topic",
+                String.valueOf(article.getId()),
+                articleKafkaDTO
+        );
+
+        producer.send(record, (recordMetadata, e) -> {
+            e.printStackTrace();
+        });
+
+        return article;
     }
 
     public ArticlesResponse getAll(Integer offset, Integer limit) {
@@ -109,13 +136,4 @@ public class ArticleService {
         return article;
     }
 
-
-    public List<Article> getArticlesByJournalistName(String name) {
-        var journalist = userRepository.findByLogin(name).get(); //todo throw custom Exception if user is not found
-
-        if (!Objects.equals(journalist.getRole().getRoleName(), DatabaseRole.ROLE_JOURNALIST.name()))
-            throw new RuntimeException(); //todo throw custom Exception that isn't boss
-
-        return articleRepository.findAllByJournalistName(journalist.getLogin());
-    }
 }

@@ -11,9 +11,9 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:6010/ntv
-    username: scientist
-    password: laboratory
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USER}
+    password: ${DATABASE_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -30,7 +30,7 @@ management:
         include: health,info,mappings
 
 app:
-  jwtSecret: 77BB8D1285FF9F029850511B3ECC8B0EA3DFFB0987762701471144681C07F4E4B8D1285FF9F029850511B3DFFB0987762701471144
+  jwtSecret: ${JWT_SECRET}
   jwtExpirationPeriod: 30
   refreshTokenExpirationPeriod: 1440
 

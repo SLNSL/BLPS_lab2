@@ -24,6 +24,9 @@ public class Role {
     @Column(name = "name")
     private String name;
 
+    @Version
+    private Long version;
+
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER) //todo убрать FetchType.EAGER
     @JoinTable(

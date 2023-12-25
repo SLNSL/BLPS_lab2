@@ -1,7 +1,6 @@
 package ru.ntv.controllers.common;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,9 +33,9 @@ public class ArticleController {
     ResponseEntity<ArticlesResponse> getArticlesByHeader(@RequestParam String header) {
         final var res = new ArticlesResponse();
 
-        Optional<List<Article>> optionalArticles = articleService.findByHeader(header);
-        optionalArticles.ifPresent(res::setArticles);
+        var optionalArticles = articleService.findByHeader(header);
 
+        res.setArticles(optionalArticles);
         return ResponseEntity.ok(res);
     }
 
@@ -52,7 +51,7 @@ public class ArticleController {
     ResponseEntity<ArticleResponse> getArticleById(@RequestParam int id) {
         final var res = new ArticleResponse();
 
-        Optional<Article> optionalArticle = articleService.findById(id);
+        var optionalArticle = articleService.findById(id);
         optionalArticle.ifPresent(res::setArticle);
 
         return ResponseEntity.ok(res);

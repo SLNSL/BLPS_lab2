@@ -15,14 +15,14 @@ public class ErrorHandlingController {
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ErrorResponse> onConstraintValidationException(ConstraintViolationException e) {
-        ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
+        var errorResponse = new ErrorResponse(e.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> onMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
+        var errorResponse = new ErrorResponse(e.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 }
